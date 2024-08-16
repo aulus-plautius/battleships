@@ -1,6 +1,6 @@
 # Battleships V1
 
-Battleships V1, is a version battle ships to be played on a single terminal. 
+Battleships V1, is a version of battle ships to be played on a single terminal. 
 
 It is a two player game that can be played in person or with someone remotely.
 
