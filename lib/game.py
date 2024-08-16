@@ -9,7 +9,7 @@ class Game:
         self.ships_sunk = []
         self.rows = rows
         self.cols = cols
-        self.unplaced_ships = [Ship(2)]
+        self.unplaced_ships = [Ship(2),Ship(3),Ship(3),Ship(4),Ship(5)]
 
 
     def place_ship(self, length, orientation, row, col):
