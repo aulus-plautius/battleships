@@ -1,7 +1,7 @@
-class Board():
-    def format_board(self, player):
+class FormatBoard():
+    def player_ships(self, player):
         rows = []
-        rows_nums = "0123456789"
+        rows_nums = "ABCDEFGHIJ"
         for row, i in zip(range(1, player.rows + 1),rows_nums):
             row_cells = []
             for col in range(1, player.cols + 1):
@@ -15,9 +15,9 @@ class Board():
         rows.append("  └─────────────────────┘")
         return "\n".join(rows)
     
-    def format_enemy_board(self, player):
+    def enemy_ships(self, player):
         rows = []
-        rows_nums = "0123456789"
+        rows_nums = "ABCDEFGHIJ"
         for row, i in zip(range(1, player.rows + 1),rows_nums):
             row_cells = []
             for col in range(1, player.cols + 1):

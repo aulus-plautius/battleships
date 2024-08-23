@@ -1,7 +1,7 @@
 from lib.interaction_handler import InteractionHandler
-from lib.board import Board
-from lib.image import Image
-from lib.aim import Aim
+from lib.format_board import FormatBoard
+from lib.generate_image import GenerateImage
+from lib.take_aim import TakeAim
 from time import sleep
 
 class Missile(InteractionHandler):
@@ -15,9 +15,9 @@ class Missile(InteractionHandler):
     def fire(self, player):
         while self.active_shot:
             self._show("Take a shot.")
-            row, col = Aim(self.io).get_position(player)
+            row, col = TakeAim(self.io).get_position(player)
             if self.players.check_if_hit_or_miss(player.number, row, col):
-                print("\033c", end="")
+                self._clear_terminal()
                 if self.players.check_if_shot_sinks_opponents_ship(player.number):
                     self._sink_message(player)
                 else:
@@ -27,37 +27,46 @@ class Missile(InteractionHandler):
 
     def _sink_message(self, player):
         ship_num = player.ships_sunk[-1].length
-        self._show(f"Player {player.number}, its your turn!")
-        self._show("Enemy ships:")
-        self._show(Image().sink)
+        self._player_turn_message(player)
+        self._show(GenerateImage().sink)
         sleep(1)
-        print("\033c", end="")
+        self._clear_terminal()
         self._show(f"Ship Sunk! You sunk a {ship_num}!")
         self._show("Enemy ships:")
-        self._show(Board().format_enemy_board(player))
-        if (len(self.players.players[0].ships_remaining) == 0 or
-            len(self.players.players[1].ships_remaining) == 0):
+        self._show(FormatBoard().enemy_ships(player))
+        if self._check_win():
             self.game_active = False
             self.active_shot = False
 
     def _hit_message(self, player):
-        self._show(f"Player {player.number}, its your turn!")
-        self._show("Enemy ships:")
-        self._show(Image().hit)
+        self._player_turn_message(player)
+        self._show(GenerateImage().hit)
         sleep(1)
-        print("\033c", end="")
-        self._show(f"Player {player.number}, its your turn!")
-        self._show("Enemy ships:")
-        self._show(Board().format_enemy_board(player))
+        self._clear_terminal()
+        # print("\033c", end="")
+        self._player_turn_message(player)
+        self._show(FormatBoard().enemy_ships(player))
 
     def _miss_message(self, player):
-        print("\033c", end="")
-        self._show(f"Player {player.number}, its your turn!")
-        self._show("Enemy ships:")
-        self._show(Image().miss)
+        self._clear_terminal()
+        # print("\033c", end="")
+        self._player_turn_message(player)
+        self._show(GenerateImage().miss)
         sleep(1)
-        print("\033c", end="")
-        self._show(f"Player {player.number}, your turn is over!")
-        self._show("Enemy ships:")
-        self._show(Board().format_enemy_board(player))
+        self._clear_terminal()
+        # print("\033c", end="")
+        self._player_turn_over_message(player)
+        self._show(FormatBoard().enemy_ships(player))
         self.active_shot = False
+
+    def _player_turn_over_message(self, player):
+        self._show(f"{player.name}, your turn is over!")
+        self._show("Enemy ships:")
+
+    def _player_turn_message(self, player):
+        self._show(f"{player.name}, its your turn!")
+        self._show("Enemy ships:")
+
+    def _check_win(self):
+        return (len(self.players.players[0].ships_remaining) == 0 or
+                len(self.players.players[1].ships_remaining) == 0)

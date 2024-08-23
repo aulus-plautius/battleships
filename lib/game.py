@@ -10,15 +10,11 @@ class Game:
         self.rows = rows
         self.cols = cols
         self.unplaced_ships = [Ship(2),Ship(3),Ship(3),Ship(4),Ship(5)]
+        # self.unplaced_ships = [Ship(2)]
 
 
     def place_ship(self, length, orientation, row, col):
-        ship_placement = ShipPlacement(
-            length=length,
-            orientation=orientation,
-            row=row,
-            col=col,
-        )
+        ship_placement = ShipPlacement(length,orientation,row,col)
         self.ships_placed.append(ship_placement)
         self.ships_remaining.append(ship_placement)
         self._remove_placed_ship(ship_placement)

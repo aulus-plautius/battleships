@@ -113,4 +113,16 @@ def test_player_sinks_ship_of_3_then_2_after_5_shots():
     assert players.check_if_shot_sinks_opponents_ship(player_number=1) == True
     assert players.players[1].ships_sunk[-1].length == 2
     assert players.players[1].ships_sunk[0].length == 3
+
+"""
+Given two names, #set_names
+sets both player object name
+"""
     
+def test_set_names_sets_two_names():
+    players = Players()
+    players.set_names('joe', 'harriet')
+    assert players.players == [
+        Player(0, 'Joe'),
+        Player(1, 'Harriet')
+    ]

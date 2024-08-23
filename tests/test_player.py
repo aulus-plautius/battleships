@@ -3,9 +3,10 @@ from lib.player import Player
 """
 Initialises with a player number
 """
-def test_initially_bot_attr_is_set_to_false():
-    player = Player(0)
+def test_object_constructs_with_name_and_number():
+    player = Player(0, 'name')
     assert player.number == 0
+    assert player.name == 'name'
 
 
 """
@@ -29,3 +30,16 @@ def test_initialises_with_hit_and_misses():
     assert player.misses == []
     assert player.hits == []
 
+"""
+Player has formatted string
+"""
+def test_player_object_has_formatted_string():
+    player = Player(0, 'name')
+    assert str(player) == "Player(0, name)"
+
+def test_two_objects_are_equal():
+    player1 = Player(0, 'name')
+    player2 = Player(0, 'name')
+    assert player1 == player2
+9
+0

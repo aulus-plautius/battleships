@@ -1,5 +1,5 @@
 from lib.interaction_handler import InteractionHandler
-from lib.board import Board
+from lib.format_board import FormatBoard
 from lib.missile import Missile
 
 class GamePlay(InteractionHandler):
@@ -13,9 +13,9 @@ class GamePlay(InteractionHandler):
     def play_round(self):
         for player in self.players.players:
             self.winner = player
-            self._show(f"Player {player.number}, its your turn!")
+            self._show(f"{player.name}, its your turn!")
             self._show("Enemy ships:")
-            self._show(Board().format_enemy_board(player))
+            self._show(FormatBoard().enemy_ships(player))
             missile = Missile(self.io, self.players)
             missile.fire(player)
             self.game_active = missile.game_active
@@ -24,7 +24,7 @@ class GamePlay(InteractionHandler):
             self._show("Remaining enemy ships: {}".format(
                 self._enemy_ships_remaining_message(player.number)))
             self._prompt("Press enter to finish.")
-            print("\033c", end="")
+            self._clear_terminal()
 
     def _enemy_ships_remaining_message(self, player_number):
         opponent = self.players.players[abs(player_number-1)]

@@ -27,6 +27,10 @@ class Players():
                 opponent.ships_remaining.remove(ship)
                 return True
         return False
+    
+    def set_names(self, name1, name2):
+        self.players[0].name = name1.title()
+        self.players[1].name = name2.title()
 
 
 

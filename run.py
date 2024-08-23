@@ -1,6 +1,6 @@
 import sys
 from lib.players import Players
-from lib.board import Board
+from lib.format_board import FormatBoard
 from lib.user_interface import UserInterface
 
 
@@ -13,5 +13,5 @@ class TerminalIO:
 
 
 io = TerminalIO()
-user_interface = UserInterface(io, Players())
+user_interface = UserInterface(io)
 user_interface.run()

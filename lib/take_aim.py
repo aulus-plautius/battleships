@@ -1,6 +1,6 @@
 from lib.interaction_handler import InteractionHandler
 
-class Aim(InteractionHandler):
+class TakeAim(InteractionHandler):
     def __init__(self, io) -> None:
         super().__init__(io)
 
@@ -15,12 +15,13 @@ class Aim(InteractionHandler):
         return row, col
 
     def _prompt_for_shot_row(self):
+        row_dict = {'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5, 'f': 6, 'g': 7, 'h': 8, 'i': 9, 'j': 10}
         while True:
-            row = self._prompt("Row:")
-            if row.isdigit() and -1 < int(row) < 10:
+            ship_row = self._prompt("Row:")
+            if ship_row.lower() in row_dict.keys():
                 break
             self._show("Invalid row, try again!")
-        return int(row) + 1
+        return row_dict[ship_row.lower()]
 
     def _prompt_for_shot_column(self):
         while True:

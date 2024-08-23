@@ -1,5 +1,5 @@
 from lib.interaction_handler import InteractionHandler
-from lib.board import Board
+from lib.format_board import FormatBoard
 class GameSetUp(InteractionHandler):
     def __init__(self, io, players) -> None:
         self.players = players
@@ -7,18 +7,18 @@ class GameSetUp(InteractionHandler):
 
     def set_up_ships(self):
         for player in self.players.players:
-            self._show(f"Player {player.number}, set up your ships first.")
+            self._show(f"{player.name}, set up your ships first.")
             self._show("This is your board:")
-            self._show(Board().format_board(player))
+            self._show(FormatBoard().player_ships(player))
             while len(player.unplaced_ships) > 0:
                 self._show("You have these ships remaining: {}".format(
                     self._ships_unplaced_message(player)))
                 self._prompt_for_ship_placement(player)
-                print("\033c", end="")
+                self._clear_terminal()
                 self._show("This is your board now:")
-                self._show(Board().format_board(player))
+                self._show(FormatBoard().player_ships(player))
             self._prompt("Press enter to finish.")
-            print("\033c", end="")
+            self._clear_terminal()
 
     def _ships_unplaced_message(self, player):
         ship_lengths = [str(ship.length) for ship in player.unplaced_ships]
@@ -40,12 +40,15 @@ class GameSetUp(InteractionHandler):
             break
 
     def _prompt_for_length(self, player):
-        while True:
-            ship_length = self._prompt("Which do you wish to place?")
-            if ship_length in [str(ship.length) for ship in player.unplaced_ships]:
-                break
-            else:
-                self._show("Invalid ship, try again!")
+        # while True:
+        #     ship_length = self._prompt("Which do you wish to place?")
+        #     if ship_length in [str(ship.length) for ship in player.unplaced_ships]:
+        #         break
+        #     else:
+        #         self._show("Invalid ship, try again!")
+        # return ship_length
+        ship_length = player.unplaced_ships[0].length
+        self._show(f"Place your ship: {ship_length}")
         return ship_length
 
     def _prompt_for_orientation(self):
@@ -57,17 +60,18 @@ class GameSetUp(InteractionHandler):
         return ship_orientation
     
     def _prompt_for_row(self):
+        row_dict = {'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5, 'f': 6, 'g': 7, 'h': 8, 'i': 9, 'j': 10}
         while True:
             ship_row = self._prompt("Which row?")
-            if ship_row.isdigit():
+            if ship_row.lower() in row_dict.keys():
                 break
-            self._show("Row must be an integer, try again!")
-        return int(ship_row) + 1
+            self._show("Invalid row, try again!")
+        return row_dict[ship_row.lower()]
 
     def _prompt_for_column(self):
         while True:
             ship_column = self._prompt("Which column?")
             if ship_column.isdigit():
                 break
-            self._show("Column must be an integer, try again!")
+            self._show("Invalid column, try again!")
         return int(ship_column) + 1

@@ -8,3 +8,7 @@ class InteractionHandler:
     def _prompt(self, message):
         self.io.write(message + "\n")
         return self.io.readline().strip()
+    
+    def _clear_terminal(self):
+        print("\033c", end="")
+        # pass
