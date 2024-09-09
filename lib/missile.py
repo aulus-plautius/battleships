@@ -1,6 +1,5 @@
 from lib.interaction_handler import InteractionHandler
 from lib.format_board import FormatBoard
-from lib.generate_image import GenerateImage
 from lib.take_aim import TakeAim
 from time import sleep
 
@@ -28,7 +27,7 @@ class Missile(InteractionHandler):
     def _sink_message(self, player):
         ship_num = player.ships_sunk[-1].length
         self._player_turn_message(player)
-        self._show(GenerateImage().sink)
+        self._show(FormatBoard().sink)
         sleep(1)
         self._clear_terminal()
         self._show(f"Ship Sunk! You sunk a {ship_num}!")
@@ -40,7 +39,7 @@ class Missile(InteractionHandler):
 
     def _hit_message(self, player):
         self._player_turn_message(player)
-        self._show(GenerateImage().hit)
+        self._show(FormatBoard().hit)
         sleep(1)
         self._clear_terminal()
         # print("\033c", end="")
@@ -51,7 +50,7 @@ class Missile(InteractionHandler):
         self._clear_terminal()
         # print("\033c", end="")
         self._player_turn_message(player)
-        self._show(GenerateImage().miss)
+        self._show(FormatBoard().miss)
         sleep(1)
         self._clear_terminal()
         # print("\033c", end="")

@@ -1,1 +1,3 @@
-battleships_venv
+**/__pycache__/
+*venv*
+.pytest_cache

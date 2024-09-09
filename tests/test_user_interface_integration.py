@@ -1,12 +1,8 @@
 import unittest
 
 from lib.user_interface import UserInterface
-from lib.players import Players
-from lib.format_board import FormatBoard
 from lib.ship import Ship
 from tests.terminal_interface_helper_mock import TerminalInterfaceHelperMock
-
-from unittest.mock import Mock
 
 
 
